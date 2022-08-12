@@ -1,0 +1,17 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.display {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 300px));
+    grid-template-rows: 200px;
+    grid-auto-rows: 200px;
+    gap: 10px;
+}
+
+.invisible {
+    display: none;
+}
