@@ -1,5 +1,7 @@
 let myLibrary = []
 
+const form = document.getElementById('new_book');
+
 function Book(title, author, pages, read) {
     this.title = title;
     this.author = author;
@@ -13,6 +15,7 @@ function Book(title, author, pages, read) {
 }
 
 function addBookToLibrary(title, author, pages, read) {
+    //Add book to library array
     if (read === 'on') {
         read = true;
     } else {
@@ -20,7 +23,65 @@ function addBookToLibrary(title, author, pages, read) {
     }
     let book = new Book(title, author, pages, read);
     myLibrary.push(book);
-    return book;
+    console.table(myLibrary);
+
+    //create HTML container for book
+    let container = document.createElement('div');
+    container.classList.add('book-card');
+    let text = myLibrary[myLibrary.length - 1].info();
+
+    //Create displayed text for book
+    let titlePara = document.createElement('p');
+    titlePara.textContent = 'Title: ' + title;
+    let authorPara = document.createElement('p');
+    authorPara.textContent = 'Author: ' + author;
+    let pagesPara = document.createElement('p');
+    pagesPara.textContent = 'Pages: ' + pages;
+    let readDiv = document.createElement('div');
+    if (read === true) {
+        readDiv.classList.add('read');
+        readDiv.textContent = 'Read';
+    } else {
+        readDiv.classList.add('not-yet');
+        readDiv.textContent = 'Not Yet Read';
+    }
+
+    readDiv.addEventListener('click', () => {
+        if (book.read === true) {
+            book.read = false
+            readDiv.classList.add('not-yet');
+            readDiv.classList.remove('read');
+            readDiv.textContent = 'Not Yet Read';
+        } else {
+            book.read = true
+            readDiv.classList.remove('not-yet');
+            readDiv.classList.add('read');
+            readDiv.textContent = 'Read';
+        }
+    })
+    
+
+
+    container.appendChild(titlePara);
+    container.appendChild(authorPara);
+    container.appendChild(pagesPara);
+    container.appendChild(readDiv);
+
+    let deleteButton = document.createElement('button');
+    deleteButton.textContent = 'Remove Book';
+    deleteButton.classList.add('delete');
+    container.appendChild(deleteButton);
+    display.appendChild(container);
+
+    deleteButton.addEventListener('click', () => {
+        let index = myLibrary.indexOf(book);
+        myLibrary.splice(index, 1)
+        deleteButton.parentElement.remove();
+    });
+
+
+    form.reset();
+    formDivContainer.classList.add('invisible');
 }
 
 const display = document.querySelector('.display');
@@ -31,9 +92,29 @@ const submitButton = document.getElementById('submit');
 
 const formDiv = document.getElementById('form');
 
+const formDivContainer = document.getElementById('form-container');
 
+//Make form appear using the add book button
 addButton.addEventListener('click', () => {
-    formDiv.classList.remove('invisible');
+    formDivContainer.classList.remove('invisible');
+})
+
+//Make form disappear by clicking out of the container
+formDivContainer.addEventListener('click', (e) => {
+    console.log(e);
+    e.stopPropagation();
+    if (e.target === formDivContainer) {
+        formDivContainer.classList.add('invisible');
+        form.reset();
+    }
+})
+
+submitButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    const formData = new FormData(form);
+    const values = [...formData.values()];
+    addBookToLibrary(...values)
+
 })
 
 let testBook1 = new Book('The Lion, The Witch, and The Wardrobe', 'CS Lewis', 290, 'read');
@@ -54,31 +135,7 @@ for (let b in myLibrary) {
     display.appendChild(newDiv);
 }
 
-const form = document.getElementById('new_book');
 
 
 
-submitButton.addEventListener('click', (e) => {
-    e.preventDefault();
-    const formData = new FormData(form);
-    const values = [...formData.values()];
-    addBookToLibrary(...values);
 
-    let newDiv = document.createElement('div');
-    newDiv.classList.add('book-card');
-    let text = myLibrary[myLibrary.length - 1].info();
-    newDiv.textContent = text;
-    let deleteButton = document.createElement('button');
-    deleteButton.textContent = 'Remove Book';
-    newDiv.appendChild(deleteButton);
-    display.appendChild(newDiv);
-
-    deleteButton.addEventListener('click', (e) => {
-
-        deleteButton.parentElement.remove();
-    });
-
-
-    form.reset();
-    formDiv.classList.add('invisible');
-})
