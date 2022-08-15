@@ -117,24 +117,6 @@ submitButton.addEventListener('click', (e) => {
 
 })
 
-let testBook1 = new Book('The Lion, The Witch, and The Wardrobe', 'CS Lewis', 290, 'read');
-let testBook2 = new Book('The Three Little Pigs', 'Robert Munch', 20, 'read');
-let testBook3 = new Book('Harry Potter and The Chamber of Secrets', 'JK Rowling', 400, 'read');
-let testBook4 = new Book('Atomic Habits', 'James Clear', 280, 'not yet read');
-
-myLibrary.push(testBook1);
-myLibrary.push(testBook2);
-myLibrary.push(testBook3);
-myLibrary.push(testBook4);
-
-for (let b in myLibrary) {
-    let newDiv = document.createElement('div');
-    newDiv.classList.add('book-card');
-    let text = myLibrary[b].info();
-    newDiv.textContent = text;
-    display.appendChild(newDiv);
-}
-
 
 
 
