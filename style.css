@@ -21,7 +21,7 @@ header {
 
 .display {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 300px));
+    grid-template-columns: repeat(auto-fit, minmax(150px, 400px));
     grid-template-rows: 200px;
     grid-auto-rows: 200px;
     gap: 10px;
